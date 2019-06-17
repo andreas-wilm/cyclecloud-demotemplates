@@ -9,9 +9,9 @@ parser.add_argument('--scheduler', nargs='?', default='pbspro',
                     help='select the job scheduler pbspro(default),gridengine,slurm')
 parser.add_argument('--array', nargs='+', default='execute',
                     help='specify the excute node arrays to create (default: execute)')
-parser.add_argument('--nfs', nargs='?', help='connect to NFS export from CycleCloud NFS filer')
-parser.add_argument('--anf', nargs='?', help='connect to ANF export from Azure')
-parser.add_argument('--lustre', nargs='?', help='connect to ANF export from Azure')
+parser.add_argument('--nfs', action='store_true', help='connect to NFS export from CycleCloud NFS filer')
+parser.add_argument('--anf', action='store_true', help='connect to ANF export from Azure')
+parser.add_argument('--lustre', action='store_true', help='connect to CycleCloud Lustre cluster')
 
 args = parser.parse_args()
 #print args.name
@@ -251,7 +251,7 @@ template += """
         Config.Label = Access execute nodes from the Internet
         Conditions.Excluded := UsePublicNetwork isnt true
 """
-if args.nfs or args.anf or arg.lustre:
+if args.nfs or args.anf or args.lustre:
   template += """
 [parameters External Filesystems]
 Order = 30
